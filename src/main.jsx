@@ -12,13 +12,25 @@ import "./index.css";
 import Root from "./routes/Root.jsx";
 import App from "./routes/App.jsx";
 import Oops from "./routes/Oops.jsx";
+import Invoices from "./routes/Invoices.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <>
             <Route element={<Root />} path="/" errorElement={<ErrorBoundary />}>
-                <Route path="/app" element={<ProtectedRoute><App /></ProtectedRoute>} />
+                <Route element={<ProtectedRoute />}>
+                    <Route
+                        element={<App />}
+                        path="/app"
+                        errorElement={<ErrorBoundary />}
+                    />
+                    <Route
+                        element={<Invoices />}
+                        path="/invoices"
+                        errorElement={<ErrorBoundary />}
+                    />
+                </Route>
                 <Route
                     element={<Oops />}
                     path="/oops"
