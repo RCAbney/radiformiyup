@@ -1,10 +1,10 @@
-import useAuthStore from "../store/authStore";
+import { useAdminStore } from "../store/adminStore";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Header() {
-    const isAuth = useAuthStore((state) => state.isAuth);
-    const login = useAuthStore((state) => state.loginUser);
-    const logout = useAuthStore((state) => state.logoutUser);
+    const isAuth = useAdminStore((state) => state.isAuth);
+    const login = useAdminStore((state) => state.loginUser);
+    const logout = useAdminStore((state) => state.logoutUser);
 
     const navigate = useNavigate();
 

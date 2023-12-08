@@ -1,16 +1,24 @@
 // import * as Form from "@radix-ui/react-form";
 import { Formik, Field, Form } from "formik";
 import { QuestionFormSchema } from "../validationSchemas/questionFormSchema";
+import { useAdminStore } from "../store/adminStore";
 
 function App() {
+    const { email, choice, preference, question } = useAdminStore(
+        (state) => state.formData
+    );
+    const updateFormData = useAdminStore((state) => state.updateFormData);
+    const resetFormData = useAdminStore((state) => state.resetFormData);
+
     return (
         <div className="flex flex-col justify-center h-full items-center">
             <Formik
+                enableReinitialize
                 initialValues={{
-                    email: "",
-                    choice: "",
-                    preference: "",
-                    question: "",
+                    email: email,
+                    choice: choice,
+                    preference: preference,
+                    question: question,
                 }}
                 validationSchema={QuestionFormSchema}
                 onSubmit={(values, { setSubmitting }) => {
@@ -21,7 +29,14 @@ function App() {
                     }, 400);
                 }}
             >
-                {({ errors, touched, handleSubmit, isSubmitting }) => (
+                {({
+                    errors,
+                    touched,
+                    handleSubmit,
+                    handleBlur,
+                    handleChange,
+                    isSubmitting,
+                }) => (
                     <Form
                         onSubmit={handleSubmit}
                         className="w-96 p-6 border border-gray-300 rounded-md"
@@ -43,6 +58,10 @@ function App() {
                                     type="email"
                                     name="email"
                                     placeholder="email address"
+                                    onChange={(e) => {
+                                        updateFormData("email", e.target.value);
+                                        handleChange(e);
+                                    }}
                                 />
                             </div>
                         </div>
@@ -66,6 +85,10 @@ function App() {
                                                 name="choice"
                                                 value="yes"
                                                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                onChange={(e) => {
+                                                    updateFormData("choice", e.target.value);
+                                                    handleChange(e);
+                                                }}
                                             />
                                         </div>
                                         <div className="ml-3 text-sm leading-6">
@@ -90,6 +113,10 @@ function App() {
                                                 name="choice"
                                                 value="no"
                                                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                onChange={(e) => {
+                                                    updateFormData("choice", e.target.value);
+                                                    handleChange(e);
+                                                }}
                                             />
                                         </div>
                                         <div className="ml-3 text-sm leading-6">
@@ -113,6 +140,10 @@ function App() {
                                                 name="choice"
                                                 value="idk"
                                                 className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                                                onChange={(e) => {
+                                                    updateFormData("choice", e.target.value);
+                                                    handleChange(e);
+                                                }}
                                             />
                                         </div>
                                         <div className="ml-3 text-sm leading-6">
@@ -146,6 +177,10 @@ function App() {
                                     as="select"
                                     name="preference"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    onChange={(e) => {
+                                        updateFormData("preference", e.target.value);
+                                        handleChange(e);
+                                    }}
                                 >
                                     <option value="">---</option>
                                     <option value="up">up</option>
@@ -170,16 +205,27 @@ function App() {
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     name="question"
                                     placeholder="type something here pal"
+                                    onChange={(e) => {
+                                        updateFormData("question", e.target.value);
+                                        handleChange(e);
+                                    }}
                                 />
                             </div>
                         </div>
-                        <div>
+                        <div className="flex align-center justify-between">
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
                                 className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Post question
+                            </button>
+                            <button
+                                type="reset"
+                                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                onClick={resetFormData}
+                            >
+                                Clear Form
                             </button>
                         </div>
                     </Form>
