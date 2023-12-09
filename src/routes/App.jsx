@@ -3,6 +3,7 @@ import { Formik, Field, Form } from "formik";
 import { QuestionFormSchema } from "../validationSchemas/questionFormSchema";
 import { useAdminStore } from "../store/adminStore";
 import usePokemonData from "../queryHooks/getPokemonData";
+import { json } from "react-router-dom";
 
 function App() {
     const formData = useAdminStore((state) => state.formData);
@@ -20,7 +21,7 @@ function App() {
     return (
         <div className="flex flex-col justify-center h-full items-center">
             <Formik
-                enableReinitialize // this is fucking with validation on blur
+                enableReinitialize
                 validateOnMount
                 initialValues={useInitialValues(formData)}
                 validationSchema={QuestionFormSchema}
@@ -318,6 +319,7 @@ function App() {
                                     Clear Form
                                 </button>
                             </div>
+                            <p>{JSON.stringify(errors)}</p>
                         </Form>
                     );
                 }}
@@ -327,3 +329,15 @@ function App() {
 }
 
 export default App;
+
+{/* <div class="lg:pl-72">
+<div class="xl:pl-96">
+  <div class="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
+    <!-- Main area -->
+  </div>
+</div>
+</div>
+
+<aside class="fixed inset-y-0 left-72 hidden w-96 overflow-y-auto border-r border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
+<!-- Secondary column (hidden on smaller screens) -->
+</aside> */}
