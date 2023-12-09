@@ -13,6 +13,7 @@ function App() {
     return (
         <div className="flex flex-col justify-center h-full items-center">
             <Formik
+                validateOnMount={true}
                 enableReinitialize
                 initialValues={{
                     email: email,
@@ -39,7 +40,7 @@ function App() {
                 }) => (
                     <Form
                         onSubmit={handleSubmit}
-                        className="w-96 p-6 border border-gray-300 rounded-md"
+                        className="w-96 p-6 m-6 border border-gray-300 rounded-md"
                     >
                         <div name="email" className="mb-6">
                             <div>

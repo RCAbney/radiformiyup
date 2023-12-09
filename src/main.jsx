@@ -22,7 +22,8 @@ const router = createBrowserRouter(
                 <Route element={<ProtectedRoute />}>
                     <Route
                         element={<App />}
-                        path="/app"
+                        // path="/app"
+                        index
                         errorElement={<ErrorBoundary />}
                     />
                     <Route

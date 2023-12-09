@@ -10,11 +10,11 @@ export default function Header() {
 
     const handleLogin = () => {
         login();
-        navigate("/app");
+        // navigate("/app");
     };
     const handleLogout = () => {
         logout();
-        navigate("/");
+        // navigate("/");
     };
 
     return (
@@ -22,8 +22,8 @@ export default function Header() {
             <Link to="/">Logo</Link>
             {isAuth ? (
                 <div className="flex gap-4">
-                    <Link to="/app">App</Link>
-                    <Link to="/invoices">Invoices</Link>
+                    {/* <Link to="/app">App</Link> */}
+                    {/* <Link to="/invoices">Invoices</Link> */}
                 </div>
             ) : null}
             {!isAuth ? (
