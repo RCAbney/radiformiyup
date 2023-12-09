@@ -2,14 +2,17 @@
 import { Formik, Field, Form } from "formik";
 import { QuestionFormSchema } from "../validationSchemas/questionFormSchema";
 import { useAdminStore } from "../store/adminStore";
+import usePokemonData from "../queryHooks/getPokemonData";
 
 function App() {
-    const { email, choice, preference, question } = useAdminStore(
+    const { email, choice, pokemon, question } = useAdminStore(
         (state) => state.formData
     );
     const updateFormData = useAdminStore((state) => state.updateFormData);
     const resetFormData = useAdminStore((state) => state.resetFormData);
     const { user, canSubmit } = useAdminStore((state) => state.user);
+
+    const pokemonData = usePokemonData();
 
     return (
         <div className="flex flex-col justify-center h-full items-center">
@@ -19,7 +22,7 @@ function App() {
                 initialValues={{
                     email: email,
                     choice: choice,
-                    preference: preference,
+                    pokemon: pokemon,
                     question: question,
                 }}
                 validationSchema={QuestionFormSchema}
@@ -178,31 +181,42 @@ function App() {
                             <div className="mb-6">
                                 <div>
                                     <label className="block text-sm font-medium leading-6 text-gray-900">
-                                        Preference
+                                        Choose a pokemon!
                                     </label>
-                                    {errors.preference &&
-                                        touched.preference && (
+                                    {errors.pokemon &&
+                                        touched.pokemon && (
                                             <div className="mt-2 text-sm text-red-600">
-                                                {errors.preference}
+                                                {errors.pokemon}
                                             </div>
                                         )}
                                 </div>
                                 <div className="mt-2">
                                     <Field
                                         as="select"
-                                        name="preference"
+                                        name="pokemon"
                                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         onChange={(e) => {
                                             updateFormData(
-                                                "preference",
+                                                "pokemon",
                                                 e.target.value
                                             );
                                             handleChange(e);
                                         }}
                                     >
                                         <option value="">---</option>
-                                        <option value="up">up</option>
-                                        <option value="down">down</option>
+                                        {pokemonData.isLoading
+                                            ? null
+                                            : pokemonData.data.results &&
+                                              pokemonData.data.results.map(
+                                                  (pokemon) => (
+                                                      <option
+                                                          key={pokemon.name}
+                                                          value={pokemon.name}
+                                                      >
+                                                          {pokemon.name}
+                                                      </option>
+                                                  )
+                                              )}
                                     </Field>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@ const initialState = {
     formData: {
         email: "",
         choice: "",
-        preference: "",
+        pokemon: "",
         question: "",
     },
 };

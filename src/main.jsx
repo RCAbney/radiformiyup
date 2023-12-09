@@ -14,6 +14,8 @@ import App from "./routes/App.jsx";
 import Oops from "./routes/Oops.jsx";
 import Invoices from "./routes/Invoices.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -43,8 +45,13 @@ const router = createBrowserRouter(
     )
 );
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+            <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
     </React.StrictMode>
 );
