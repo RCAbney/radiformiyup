@@ -1,30 +1,28 @@
-// import * as Form from "@radix-ui/react-form";
+import { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { QuestionFormSchema } from "../validationSchemas/questionFormSchema";
 import { useAdminStore } from "../store/adminStore";
 import usePokemonData from "../queryHooks/getPokemonData";
 
 function App() {
-    const { email, choice, pokemon, question } = useAdminStore(
-        (state) => state.formData
-    );
+    const formData = useAdminStore((state) => state.formData);
     const updateFormData = useAdminStore((state) => state.updateFormData);
     const resetFormData = useAdminStore((state) => state.resetFormData);
     const { user, canSubmit } = useAdminStore((state) => state.user);
+
+    const useInitialValues = (input) => {
+        const [initialValues] = useState(input);
+        return initialValues;
+    };
 
     const pokemonData = usePokemonData();
 
     return (
         <div className="flex flex-col justify-center h-full items-center">
             <Formik
-                validateOnMount={true}
-                enableReinitialize
-                initialValues={{
-                    email: email,
-                    choice: choice,
-                    pokemon: pokemon,
-                    question: question,
-                }}
+                enableReinitialize // this is fucking with validation on blur
+                validateOnMount
+                initialValues={useInitialValues(formData)}
                 validationSchema={QuestionFormSchema}
                 onSubmit={(values, { setSubmitting }) => {
                     setTimeout(() => {
@@ -39,7 +37,9 @@ function App() {
                     touched,
                     handleSubmit,
                     handleChange,
+                    handleBlur,
                     isSubmitting,
+                    resetForm,
                 }) => {
                     return (
                         <Form
@@ -70,6 +70,13 @@ function App() {
                                             );
                                             handleChange(e);
                                         }}
+                                        onBlur={(e) => {
+                                            updateFormData(
+                                                "email",
+                                                e.target.value
+                                            );
+                                            handleBlur(e);
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -99,6 +106,13 @@ function App() {
                                                             e.target.value
                                                         );
                                                         handleChange(e);
+                                                    }}
+                                                    onBlur={(e) => {
+                                                        updateFormData(
+                                                            "choice",
+                                                            e.target.value
+                                                        );
+                                                        handleBlur(e);
                                                     }}
                                                 />
                                             </div>
@@ -131,6 +145,13 @@ function App() {
                                                         );
                                                         handleChange(e);
                                                     }}
+                                                    onBlur={(e) => {
+                                                        updateFormData(
+                                                            "choice",
+                                                            e.target.value
+                                                        );
+                                                        handleBlur(e);
+                                                    }}
                                                 />
                                             </div>
                                             <div className="ml-3 text-sm leading-6">
@@ -161,6 +182,13 @@ function App() {
                                                         );
                                                         handleChange(e);
                                                     }}
+                                                    onBlur={(e) => {
+                                                        updateFormData(
+                                                            "choice",
+                                                            e.target.value
+                                                        );
+                                                        handleBlur(e);
+                                                    }}
                                                 />
                                             </div>
                                             <div className="ml-3 text-sm leading-6">
@@ -183,12 +211,11 @@ function App() {
                                     <label className="block text-sm font-medium leading-6 text-gray-900">
                                         Choose a pokemon!
                                     </label>
-                                    {errors.pokemon &&
-                                        touched.pokemon && (
-                                            <div className="mt-2 text-sm text-red-600">
-                                                {errors.pokemon}
-                                            </div>
-                                        )}
+                                    {errors.pokemon && touched.pokemon && (
+                                        <div className="mt-2 text-sm text-red-600">
+                                            {errors.pokemon}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="mt-2">
                                     <Field
@@ -201,6 +228,13 @@ function App() {
                                                 e.target.value
                                             );
                                             handleChange(e);
+                                        }}
+                                        onBlur={(e) => {
+                                            updateFormData(
+                                                "pokemon",
+                                                e.target.value
+                                            );
+                                            handleBlur(e);
                                         }}
                                     >
                                         <option value="">---</option>
@@ -244,6 +278,13 @@ function App() {
                                             );
                                             handleChange(e);
                                         }}
+                                        onBlur={(e) => {
+                                            updateFormData(
+                                                "question",
+                                                e.target.value
+                                            );
+                                            handleBlur(e);
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -262,7 +303,17 @@ function App() {
                                 <button
                                     type="reset"
                                     className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                    onClick={resetFormData}
+                                    onClick={() => {
+                                        resetForm({
+                                            values: {
+                                                email: "",
+                                                choice: "",
+                                                pokemon: "",
+                                                question: "",
+                                            },
+                                        });
+                                        resetFormData();
+                                    }}
                                 >
                                     Clear Form
                                 </button>
