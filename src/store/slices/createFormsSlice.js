@@ -5,6 +5,7 @@ const initialState = {
         pokemon: "",
         question: "",
     },
+    activeFormNavSection: 0
 };
 
 export const createFormsSlice = (set) => ({
@@ -17,5 +18,6 @@ export const createFormsSlice = (set) => ({
             [key]: val
         }
     }
-    ), false, `formsSlice/updateFormData/${key}`)
+    ), false, `formsSlice/updateFormData/${key}`),
+    setActiveFormNavSection: (val) => set({activeFormNavSection: val}, false, `formsSlice/setActiveFormNavSection: ${val}`)
 });

@@ -10,7 +10,7 @@ import NotFound from "./components/NotFound.jsx";
 import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import "./index.css";
 import Root from "./routes/Root.jsx";
-import App from "./routes/App.jsx";
+import FormLayout from "./routes/Form.jsx";
 import Oops from "./routes/Oops.jsx";
 import Invoices from "./routes/Invoices.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
@@ -23,8 +23,8 @@ const router = createBrowserRouter(
             <Route element={<Root />} path="/" errorElement={<ErrorBoundary />}>
                 <Route element={<ProtectedRoute />}>
                     <Route
-                        element={<App />}
-                        // path="/app"
+                        element={<FormLayout />}
+                        // path="/form"
                         index
                         errorElement={<ErrorBoundary />}
                     />
