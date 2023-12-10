@@ -19,9 +19,8 @@ function MainFormNav() {
                             {menuItems.map((menuItem, index) => {
                                 return (
                                     <li key={menuItem}>
-                                        <a
-                                            href="#"
-                                            className={`text-indigo-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 hover:bg-slate-100 ${
+                                        <button
+                                            className={`text-indigo-600 group flex w-full gap-x-3 rounded-md p-2 text-sm leading-6 hover:bg-slate-100 ${
                                                 index === activeFormNavSection
                                                     ? "font-semibold bg-slate-100"
                                                     : ""
@@ -31,7 +30,7 @@ function MainFormNav() {
                                             }
                                         >
                                             {menuItem}
-                                        </a>
+                                        </button>
                                     </li>
                                 );
                             })}
